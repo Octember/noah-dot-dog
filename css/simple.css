@@ -33,6 +33,20 @@ h1 {
   line-height: 23px;
 }
 
+p {
+  font-family: Perpetua;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+#content {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
 #content #left-sidebar {
   text-align: left;
 
@@ -53,12 +67,6 @@ h1 {
   margin-top: 15px;
 }
 
-.centeredContent {
-  display: table;
-  margin: 0 auto;
-}
-
-
 /* resize images */
 #content #my-head  img {
     width: auto;
@@ -66,12 +74,11 @@ h1 {
 }
 
 
-p {
-  font-family: Perpetua;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 23px;
+.centeredContent {
+  display: table;
+  margin: 0 auto;
 }
 
+#links {
+  margin-top: 30px;
+}
