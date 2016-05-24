@@ -21,8 +21,8 @@ var MAX_DOGE      = 5;
 var DOGE_SIZE     = 250;
 var FOOD_SIZE     = 75;
 
-var doges = [];
-var food  = [];
+var doges  = [];
+var foods  = [];
 
 var canvasElement = document.getElementById('canvas');
 var context   = canvasElement.getContext('2d');
@@ -58,7 +58,7 @@ function spawnFood() {
     var x = 50 + (Math.random() * CANVAS_WIDTH) - 100;
     var y = 50 + (Math.random() * CANVAS_HEIGHT) - 100;
 
-    food.push([x, y]);
+    foods.push([x, y]);
 }
 
 var player = {
@@ -122,13 +122,19 @@ var player = {
     }
 
     doges.push([player.x, player.y]);
-
-    console.log("STOP LOOKING AT ME (" + player.x + ", " + player.y + ")");
   },
 
-  intersect: function(food) {
-    return false;
-  }
+    intersect: function(food) {
+        var r1 = DOGE_SIZE / 2;
+        var r2 = DOGE_SIZE / 2;
+
+        var dx = Math.pow(player.x - food[0], 2);
+        var dy = Math.pow(player.y - food[1], 2);
+
+        var distance = Math.sqrt(dx + dy);
+
+        return distance < r1 + r2;
+    }
 };
 
 function update() {
@@ -139,9 +145,9 @@ function update() {
     }
 
     // check intersections
-    for (var i = 0; i < food.length; i++) {
-        if (player.intersect(food)) {
-            food.splice(i);
+    for (var i = 0; i < foods.length; i++) {
+        if (player.intersect(foods[i])) {
+            foods.splice(i);
             MAX_DOGE += 10;
             break;
         }
@@ -155,11 +161,10 @@ function draw() {
         context.drawImage(dogeImage, coords[0], coords[1], DOGE_SIZE, DOGE_SIZE);
         context.fillStyle = "green";
     }
-        context.fillRect(player.x, player.y, 5, 5);
+    // context.fillRect(player.x + (DOGE_SIZE / 2), player.y + (DOGE_SIZE / 2), 5, 5);
 
-
-    for (var i = 0; i < food.length; i++) {
-        var coords = food[i];
+    for (var i = 0; i < foods.length; i++) {
+        var coords = foods[i];
         context.drawImage(breadImage, coords[0], coords[1], FOOD_SIZE, FOOD_SIZE);
     }
 
