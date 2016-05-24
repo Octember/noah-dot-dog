@@ -94,8 +94,12 @@ var player = {
         player.dy *= -0.5;
         player.y   = -100;
     } else if (player.y + player.dy > CANVAS_HEIGHT - 100) {
-        player.dy *= -0.5;
-        player.y   = CANVAS_HEIGHT - 100;
+        // player.dy *= -0.5;
+        // player.y   = CANVAS_HEIGHT - 100;
+
+
+        player.y = 250;
+        player.y = -100;
     } else {
         player.y += player.dy;
     }
