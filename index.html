@@ -13,14 +13,18 @@
 </body>
 
 <script>
-var CANVAS_WIDTH  = 600;
-var CANVAS_HEIGHT = 500;
-var SPEED         = 5; 
+var CANVAS_WIDTH;
+var CANVAS_HEIGHT;
+var SPEED         = 6;
+var MAX_SPEED     = 20;
+var MAX_DOGE      = 10;
+
+var doges = [];
 
 var canvasElement = document.getElementById('canvas');
-var context = canvasElement.getContext('2d');
-context.canvas.width  = window.innerWidth;
-context.canvas.height = window.innerHeight;
+var context   = canvasElement.getContext('2d');
+CANVAS_WIDTH  = context.canvas.width  = window.innerWidth;
+CANVAS_HEIGHT = context.canvas.height = window.innerHeight;
 
 var doge = new Image(); // HTML5 Constructor
 doge.src = 'images/doge.png';
@@ -44,6 +48,8 @@ var player = {
   color: "#00A",
   x: 220,
   y: 270,
+  dx: 2,
+  dy: -2,
   width: 32,
   height: 32,
   draw: function() {
@@ -51,17 +57,54 @@ var player = {
     context.drawImage(doge, this.x, this.y);
   },
   update: function() {
-    if (keyStates[37]) {
-        player.x -= SPEED;
-    } else if (keyStates[39]) {
-        player.x += SPEED;
+    var dx = 0,
+        dy = 0;
+    if (keyStates[37] || keyStates[65]) {
+        // Left or A
+        dx = -SPEED;
+    } else if (keyStates[39] || keyStates[68]) {
+        // right or D
+        dx = SPEED;
     }
 
-    if (keyStates[38]) {
-        player.y -= SPEED;
-    } else if (keyStates[40]) {
-        player.y += SPEED;
+    if (keyStates[38] || keyStates[87]) {
+        dy = -SPEED;
+    } else if (keyStates[40] || keyStates[83]) {
+        dy = SPEED;
     }
+
+    var totalSpeed = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    dx = totalSpeed == 0 ? 0 : dx * SPEED / totalSpeed;
+    dy = totalSpeed == 0 ? 0 : dy * SPEED / totalSpeed;
+
+    player.dx += dx;
+    player.dy += dy;
+
+    if (player.x + player.dx < -100) {
+        player.dx *= -0.5;
+        player.x   = -100;
+    } else if (player.x + player.dx > CANVAS_WIDTH - 100) {
+        player.dx *= -0.5;
+        player.x   = CANVAS_WIDTH - 100;
+    } else {
+        player.x += player.dx;
+    }
+
+    if (player.y + player.dy < -100) {
+        player.dy *= -0.5;
+        player.y   = -100;
+    } else if (player.y + player.dy > CANVAS_HEIGHT - 100) {
+        player.dy *= -0.5;
+        player.x   = CANVAS_HEIGHT - 100;
+    } else {
+    }
+
+    player.y += player.dy;
+
+
+    doges.push([player.x, player.y]);
+
+    console.log("" + player.x + ", " + player.y);
   }
 };
 
@@ -70,8 +113,15 @@ function update() {
 }
 
 function draw() {
-    // context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    player.draw();
+    context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    for (var i = 0; i < doges.length; i++) {
+        var coords = doges[i];
+        context.drawImage(doge, coords[0], coords[1]);
+    }
+
+    if (doges.length == MAX_DOGE) {
+        doges.shift();
+    }
 }
 
 </script>
