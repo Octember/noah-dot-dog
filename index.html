@@ -1,6 +1,9 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/canvas.css">
+
+
     <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 
@@ -15,9 +18,10 @@ var CANVAS_HEIGHT = 500;
 var SPEED         = 5; 
 
 var canvasElement = document.getElementById('canvas');
-canvasElement.width  = CANVAS_WIDTH;
-canvasElement.height = CANVAS_HEIGHT;
-var canvas = canvasElement.getContext('2d');
+var context = canvasElement.getContext('2d');
+context.canvas.width  = window.innerWidth;
+context.canvas.height = window.innerHeight;
+
 var doge = new Image(); // HTML5 Constructor
 doge.src = 'images/doge.png';
 
@@ -43,8 +47,8 @@ var player = {
   width: 32,
   height: 32,
   draw: function() {
-    canvas.fillStyle = this.color;
-    canvas.drawImage(doge, this.x, this.y);
+    context.fillStyle = this.color;
+    context.drawImage(doge, this.x, this.y);
   },
   update: function() {
     if (keyStates[37]) {
@@ -66,7 +70,7 @@ function update() {
 }
 
 function draw() {
-    canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     player.draw();
 }
 
