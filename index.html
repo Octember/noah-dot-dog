@@ -95,11 +95,12 @@ var player = {
         player.y   = -100;
     } else if (player.y + player.dy > CANVAS_HEIGHT - 100) {
         player.dy *= -0.5;
-        player.x   = CANVAS_HEIGHT - 100;
+        player.y   = CANVAS_HEIGHT - 100;
     } else {
+        player.y += player.dy;
     }
 
-    player.y += player.dy;
+    
 
 
     doges.push([player.x, player.y]);
