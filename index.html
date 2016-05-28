@@ -18,7 +18,7 @@ var CANVAS_HEIGHT;
 var SPEED         = 6;
 var MAX_SPEED     = 20;
 var MAX_DOGE      = 5;
-var DOGE_SIZE     = 250;
+var DOGE_SIZE     = 150;
 var FOOD_SIZE     = 75;
 
 var doges  = [];
@@ -133,7 +133,7 @@ var player = {
 
         var distance = Math.sqrt(dx + dy);
 
-        return distance < r1 + r2;
+        return distance + 40 < r1 + r2;
     }
 };
 
@@ -147,7 +147,7 @@ function update() {
     // check intersections
     for (var i = 0; i < foods.length; i++) {
         if (player.intersect(foods[i])) {
-            foods.splice(i);
+            foods.splice(i, 1);
             MAX_DOGE += 10;
             break;
         }
