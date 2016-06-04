@@ -1,9 +1,10 @@
 var CANVAS_WIDTH;
 var CANVAS_HEIGHT;
-var SPEED         = 1.5;
-var MAX_SPEED     = 20;
+var ACCELERATION  = 1.5;
+var MAX_SPEED     = 50;
 var MAX_DOGE      = 2;
 var DOGE_SIZE     = 150;
+var DOGE_PADDING  = 5;
 var FOOD_SIZE     = 75;
 
 var doges  = [];
@@ -39,9 +40,13 @@ setInterval(function() {
   spawnFood();
 }, 3000);
 
+function sumSquares(x, y) {
+    return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+}
+
 function spawnFood() {
-    var x = 50 + (Math.random() * CANVAS_WIDTH) - 100;
-    var y = 50 + (Math.random() * CANVAS_HEIGHT) - 100;
+    var x = FOOD_SIZE + (Math.random() * (CANVAS_WIDTH - FOOD_SIZE * 2))
+    var y = FOOD_SIZE + (Math.random() * (CANVAS_HEIGHT - FOOD_SIZE * 2))
 
     foods.push([x, y]);
 }
@@ -60,24 +65,29 @@ var player = {
         dy = 0;
     if (keyStates[37] || keyStates[65]) {
         // Left or A
-        dx = -SPEED;
+        dx = -ACCELERATION;
     } else if (keyStates[39] || keyStates[68]) {
         // right or D
-        dx = SPEED;
+        dx = ACCELERATION;
     }
 
     if (keyStates[38] || keyStates[87]) {
-        dy = -SPEED;
+        dy = -ACCELERATION;
     } else if (keyStates[40] || keyStates[83]) {
-        dy = SPEED;
+        dy = ACCELERATION;
     }
 
-    var totalSpeed = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-    dx = totalSpeed == 0 ? 0 : dx * SPEED / totalSpeed;
-    dy = totalSpeed == 0 ? 0 : dy * SPEED / totalSpeed;
+    var acceleration = sumSquares(dx, dy)
+    dx = (acceleration == 0) ? 0 : dx * ACCELERATION / acceleration;
+    dy = (acceleration == 0) ? 0 : dy * ACCELERATION / acceleration;
 
-    player.dx += dx;
-    player.dy += dy;
+    var newSpeed = sumSquares(player.dx + dx, player.dy + dy);
+
+    // Only accelerate if we're below max speed
+    if (newSpeed < MAX_SPEED) {
+        player.dx += dx;
+        player.dy += dy;
+    }
 
     if (player.x + player.dx - (DOGE_SIZE / 2) < 0) {
         player.dx *= -0.5;
@@ -140,10 +150,8 @@ function draw() {
 
     for (var i = 0; i < doges.length; i++) {
         var coords = doges[i];
-        context.drawImage(dogeImage, coords[0] - (DOGE_SIZE / 2), coords[1] - (DOGE_SIZE / 2), DOGE_SIZE, DOGE_SIZE);
+        context.drawImage(dogeImage, coords[0] - ((DOGE_SIZE + DOGE_PADDING) / 2), coords[1] - ((DOGE_SIZE + DOGE_PADDING) / 2), DOGE_SIZE + DOGE_PADDING, DOGE_SIZE + DOGE_PADDING);
     }
-
-    context.fillRect(player.x, player.y, 2, 2);
 
     for (var i = 0; i < foods.length; i++) {
         var coords = foods[i];
