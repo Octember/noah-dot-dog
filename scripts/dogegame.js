@@ -136,7 +136,6 @@ function update() {
         if (player.intersect(foods[i])) {
             foods.splice(i, 1);
             MAX_DOGE += 1;
-            break;
         }
     }
 }

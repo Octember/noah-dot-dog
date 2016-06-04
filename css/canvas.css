@@ -4,3 +4,22 @@ html, body {
     margin: 0px;
     padding:0px;
 }
+
+body {
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+#header {
+    position: absolute;
+    top: 20px;
+     z-index: 4000;
+}
+
+#canvas {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
