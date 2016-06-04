@@ -89,16 +89,11 @@ var player = {
         player.x += player.dx;
     }
 
-    if (player.y + player.dy < -100) {
+    if (player.y + player.dy < (DOGE_SIZE / 2)) {
         player.dy *= -0.5;
-        player.y   = -100;
-    } else if (player.y + player.dy > CANVAS_HEIGHT - 100) {
-        // player.dy *= -0.5;
-        // player.y   = CANVAS_HEIGHT - 100;
-
-
-        player.y = 250;
-        player.y = -100;
+        player.y  = DOGE_SIZE / 2;
+    } else if (player.y + player.dy > CANVAS_HEIGHT + (DOGE_SIZE / 2)) {
+        player.y = (DOGE_SIZE / 2);
     } else {
         player.y += player.dy;
     }
@@ -138,6 +133,11 @@ function update() {
 
 function draw() {
     context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    context.fillStyle = "blue";
+    context.fillRect(0, CANVAS_HEIGHT - 30, CANVAS_WIDTH, 30);
+
+
     for (var i = 0; i < doges.length; i++) {
         var coords = doges[i];
         context.drawImage(dogeImage, coords[0] - (DOGE_SIZE / 2), coords[1] - (DOGE_SIZE / 2), DOGE_SIZE, DOGE_SIZE);
