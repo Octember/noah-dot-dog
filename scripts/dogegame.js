@@ -5,6 +5,7 @@ var MAX_SPEED     = 50;
 var MAX_DOGE      = 2;
 var DOGE_SIZE     = 150;
 var DOGE_PADDING  = 5;
+var PADDED_DOGE   = DOGE_SIZE + DOGE_PADDING;
 var FOOD_SIZE     = 75;
 
 var doges  = [];
@@ -12,8 +13,8 @@ var foods  = [];
 
 var canvasElement = document.getElementById('canvas');
 var context   = canvasElement.getContext('2d');
-CANVAS_WIDTH  = context.canvas.width  = window.innerWidth;
-CANVAS_HEIGHT = context.canvas.height = window.innerHeight;
+CANVAS_WIDTH  = context.canvas.width  = $("#canvas").width();
+CANVAS_HEIGHT = context.canvas.height = $("#canvas").height();
 
 var dogeImage  = new Image(); // HTML5 Constructor
 var breadImage = new Image();
@@ -149,7 +150,17 @@ function draw() {
 
     for (var i = 0; i < doges.length; i++) {
         var coords = doges[i];
-        context.drawImage(dogeImage, coords[0] - ((DOGE_SIZE + DOGE_PADDING) / 2), coords[1] - ((DOGE_SIZE + DOGE_PADDING) / 2), DOGE_SIZE + DOGE_PADDING, DOGE_SIZE + DOGE_PADDING);
+
+        var x = coords[0] - (PADDED_DOGE / 2);
+        var y = coords[1] - (PADDED_DOGE / 2);
+
+        context.drawImage(dogeImage, x, y, PADDED_DOGE, PADDED_DOGE);
+
+        // Wrap around
+        if (y + DOGE_SIZE > CANVAS_HEIGHT) {
+            context.drawImage(dogeImage, x, y - CANVAS_HEIGHT, PADDED_DOGE, PADDED_DOGE);
+
+        }
     }
 
     for (var i = 0; i < foods.length; i++) {
