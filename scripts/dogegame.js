@@ -170,3 +170,18 @@ function draw() {
 
 
 }
+
+
+$( document ).ready(function() {
+    setTimeout(function() {
+        $('#welcome').fadeOut(1000) // Fade out over 1 sec
+    }, 1500);
+
+    setTimeout(function() {
+        $('#tips').fadeIn(1000) // Fade out over 1 sec
+    }, 2500);
+
+    setTimeout(function() {
+        $('#tips').fadeOut(1000) // Fade out over 1 sec
+    }, 3500);
+});

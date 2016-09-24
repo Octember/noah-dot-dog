@@ -12,3 +12,36 @@ html, body {
 #content {
     margin-top: 50px;
 }
+
+
+.intro {
+    position: fixed;
+    padding: 5px;
+}
+
+#welcome {
+    top: 10%;
+    right: 30%;
+}
+
+#tips {
+    top: 30%;
+    left: 20%;
+}
+
+#content #name {
+  padding-bottom: 20px;
+}
+
+#content #my-head {
+  width: 165px;
+  height: 165px;
+
+  margin-top: 15px;
+}
+
+/* resize images */
+#content #my-head  img {
+    width: auto;
+    height: 100%;
+}
