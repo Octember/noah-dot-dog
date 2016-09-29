@@ -1,12 +1,13 @@
 var CANVAS_WIDTH;
 var CANVAS_HEIGHT;
 var ACCELERATION  = 1.5;
-var MAX_SPEED     = 50;
+var MAX_SPEED     = 75;
 var MAX_DOGE      = 2;
 var DOGE_SIZE     = 150;
 var DOGE_PADDING  = 5;
 var PADDED_DOGE   = DOGE_SIZE + DOGE_PADDING;
 var FOOD_SIZE     = 75;
+var RANDOM_SPEED  = 0.5
 
 var doges  = [];
 var foods  = [];
@@ -81,6 +82,8 @@ var player = {
     var acceleration = sumSquares(dx, dy)
     dx = (acceleration == 0) ? 0 : dx * ACCELERATION / acceleration;
     dy = (acceleration == 0) ? 0 : dy * ACCELERATION / acceleration;
+
+    dx += Math.random()  * (RANDOM_SPEED - -RANDOM_SPEED) - RANDOM_SPEED;
 
     var newSpeed = sumSquares(player.dx + dx, player.dy + dy);
 
